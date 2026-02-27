@@ -4,6 +4,7 @@ This browser-based application utilizes the COCO-SSD pre-trained model to perfor
 
 ## Demo Link
 https://youtu.be/aCmxGQlsxSM
+
 ## Prerequisites
 Ensure you have the following installed on your machine:
 - Node.js (v14.x or later)
