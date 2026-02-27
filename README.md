@@ -2,6 +2,8 @@
 # Real-Time Object Detection with TensorFlow.js
 This browser-based application utilizes the COCO-SSD pre-trained model to perform real-time object detection. The project supports live webcam streaming, batch image processing, and data export functionalities, all processed locally within the client's browser using TensorFlow.js.
 
+## Demo Link
+https://youtu.be/aCmxGQlsxSM
 ## Prerequisites
 Ensure you have the following installed on your machine:
 - Node.js (v14.x or later)
