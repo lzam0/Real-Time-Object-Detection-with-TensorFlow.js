@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Multiple Object Detection in TensorFlow.js</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- TensorFlow.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js" type="text/javascript"></script>
+
+    <!-- COCO-SSD Model -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+
+    <!-- Main JS Script -->
+    <script type="module" src="js/main.js" defer></script>
+</head>
+
+<body>
+    <div id="loading-overlay">
+        <div class="loading-card">
+            <div class="spinner"></div>
+            <h2>Loading Object Detection Model</h2>
+            <p>Please wait while TensorFlow.js initialises…</p>
+        </div>
+    </div>
+
+
+    <!-- Page Heading -->
+    <h1>Real-Time Object Detection</h1>
+
+    <!-- Detection Mode Selector -->
+    <div id="container">
+        <h3>Detection Mode</h3>
+        <p>Select how you want to run object detection.</p>
+
+        <div class="mode-toggle">
+            <button id="mode-webcam">Webcam Detection</button>
+            <button id="mode-upload">Image Upload</button>
+        </div>
+    </div>
+
+
+    <div id="info-row">
+        <!-- Model Info Panel -->
+        <div id="container">
+            <p>Model: <span id="model-name">Loading...</span></p>
+            <p>Version: <span id="model-version">-</span></p>
+            <p>Size: <span id="model-size">-</span></p>
+        </div>
+
+        <!-- Backend Selection -->
+        <div id="container">
+            <p>Select a Device to run the tensors on...</p>
+            <label for="backend">Select Backend:</label>
+            <select id="backend">
+                <option value="webgl">WebGL (GPU)</option>
+                <option value="cpu">CPU</option>
+            </select>
+        </div>
+    </div>
+
+
+    <!-- Section for displaying live webcam and detection overlay -->
+    <section id="demos" class="invisible">
+        <div id="container">
+            <h3>Webcam Object Detection</h3>
+            <p>Hold some objects close to your webcam to get a real-time classification!</p>
+            
+            <!-- Enable/Disable Webcam Buttons -->
+            <button id="webcam-btn">Enable Webcam</button>
+            <button id="disable-webcam-btn">Disable Webcam</button>
+            <button id="screenshot-btn">Screenshot</button>
+            
+            <!-- Metrics Display -->
+            <div id="live-fps">FPS: </div>
+            <div id="frame-time">Frame Time: </div>
+            <div id="model-fps">Model FPS: </div>
+            <div id="inference-time">Inference Time: </div>
+        
+            <!-- Display Webcam Error -->
+            <div id="webcam-error"></div>
+
+            <!-- Video and Canvas Container -->
+            <div id="live-view" class="cam-view">
+                <!-- Webcam Video Feed -->
+                <video id="webcam" autoplay muted playsinline></video>
+
+                <!-- Canvas Overlay for bounding boxes -->
+                <canvas id="overlay"></canvas>
+
+            <!-- Region of Interest Rectangle -->
+                <div id="roi-box">
+                    <div class="roi-label">ROI FILTER ACTIVE</div>
+                    <div class="resizer"></div>
+                </div>
+
+            </div>
+
+            <!-- Enable/Disable ROI -->
+            <div class="section-card">
+                <label class="switch">
+                    <input type="checkbox" id="enable-roi">
+                    <span class="slider"></span>
+                </label>
+                <span>Enable Region of Interest</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section id="upload-area" class="invisible">
+        <div id="container">
+            <h3>Image Detection</h3>
+            <p>Upload an image and click detect.</p>
+
+            <!-- Input Type -->
+            <!-- <input type="file" id="image-upload" accept="image/*">
+            <button id="run-detection">Detect Objects</button> -->
+
+            <input type="file" id="img-upload" accept="image/*" multiple> <button id="run-batch-detection">Run Detection</button>
+            <button id="export-csv" style="display:none;">Export Results (CSV)</button>
+            
+            <!-- Image Display -->
+            <div class="upload-viewport">
+                <img id="target-img" />
+                <canvas id="upload-overlay"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Controls Section -->
+    <div class="controls">
+        <!-- Confidence Slider -->
+        <label for="confidence">
+            Confidence Threshold: <span id="confidence-value">66%</span>
+        </label>
+        <input type="range" id="confidence" min="0" max="100" value="66" step="1"/>
+    </div>
+
+    <!-- Section to remove objects in frame -->
+    <div id="container">
+        <!-- Object Counts -->
+        <div id="object-counts" class="info-panel">
+            <h3>Live Detected Objects</h3>
+            <ul id="object-counts-list"></ul>
+        </div>
+
+        <!-- Object Class Filter -->
+        <h4>Object Class Filters</h4>
+        <p>Uncheck a class to hide object from view.</p>
+        <div id="class-filters"></div>
+    </div>
+
+     <!-- Upload Gallery -->
+    <section id="gallery-area" class="invisible">
+        <div id="container">
+            <h3>Batch Processed Results</h3>
+            <p>Scroll down to see all detected images from your batch.</p>
+            <div id="upload-gallery" class="gallery-grid">
+                </div>
+        </div>
+    </section>
+</body>
+</html>
